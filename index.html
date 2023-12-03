@@ -27,6 +27,7 @@
 
         <!-- Search results will be displayed here -->
         <div id="search-results" class="mt-4 p-4 border border-gray-200 rounded-lg"></div>
+        <div id="searchQuery" class="mt-4 p-4 border border-gray-200 rounded-lg"></div>
     </main> 
 
     <footer>
@@ -38,7 +39,9 @@
         document.getElementById('search-form').addEventListener('submit', function(event) {
             event.preventDefault();
             var searchQuery = document.getElementById('default-search').value;
-            var apiUrl = 'https://whois.freeaiapi.xyz/?name=&suffix=com';
+            var apiUrl = 'https://whois.freeaiapi.xyz/?name=' + encodeURIComponent(searchQuery) + '&suffix=com';
+
+            document.getElementById('searchQuery').innerHTML = apiUrl;
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
@@ -46,10 +49,11 @@
                     var resultHtml = '<h3 class="text-lg font-semibold">Search Results:</h3>';
                     resultHtml += '<pre class="bg-gray-100 p-2 mt-2 rounded">' + JSON.stringify(data, null, 2) + '</pre>';
                     document.getElementById('search-results').innerHTML = resultHtml;
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    document.getElementById('search-results').innerHTML = '<p>Error loading results.</p>';
+                    document.getElementById('search-results').innerHTML = '<p>Error: ' + error.message + '</p>';
                 });
         });
     </script>
