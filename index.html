@@ -38,7 +38,7 @@
         document.getElementById('search-form').addEventListener('submit', function(event) {
             event.preventDefault();
             var searchQuery = document.getElementById('default-search').value;
-            var apiUrl = 'https://whois.freeaiapi.xyz/?name=' + encodeURIComponent(searchQuery) + '&suffix=com';
+            var apiUrl = 'https://whois.freeaiapi.xyz/?name=&suffix=com';
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
