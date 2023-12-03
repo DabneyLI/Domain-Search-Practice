@@ -39,11 +39,16 @@
         document.getElementById('search-form').addEventListener('submit', function(event) {
             event.preventDefault();
             var searchQuery = document.getElementById('default-search').value;
-            var apiUrl = 'https://whois.freeaiapi.xyz/?name=' + encodeURIComponent(searchQuery) + '&suffix=com';
+            var apiUrl = '/api/whois?name=' + encodeURIComponent(searchQuery) + '&suffix=com';
 
             document.getElementById('searchQuery').innerHTML = apiUrl;
             fetch(apiUrl)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     // Format and display the results
                     var resultHtml = '<h3 class="text-lg font-semibold">Search Results:</h3>';
@@ -53,7 +58,7 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    document.getElementById('search-results').innerHTML = '<p>Error: ' + error.message + '</p>';
+                    document.getElementById('search-results').innerHTML = `<p>Error: ${error.message}</p>`;
                 });
         });
     </script>
