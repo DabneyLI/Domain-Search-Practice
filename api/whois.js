@@ -3,17 +3,14 @@ module.exports = async (req, res) => {
     const apiUrl = `https://whois.freeaiapi.xyz/?name=${name}&suffix=${suffix}`;
 
     try {
+        const fetch = (await import('node-fetch')).default;
         const response = await fetch(apiUrl);
-        const data = await response.json();
-        
         if (!response.ok) {
-            console.error('API response error:', data);
-            throw new Error(`API response not ok: ${response.status}`);
+            throw new Error(`Failed to fetch WHOIS data: ${response.statusText}`);
         }
-
+        const data = await response.json();
         res.json(data);
     } catch (error) {
-        console.error('Serverless Function error:', error);
         res.status(500).json({ error: error.message });
     }
 };
