@@ -1,0 +1,15 @@
+{
+  "name": "domain-search-practice",
+  "version": "1.0.0",
+  "description": "Domain Search Practice - Homework from group of Gefei's friends\r 给所有还没有在 Vercel 跑通全流程的朋友一个小练习项目，不需要注册新域名，直接用 vercel 的子域名即可。 \r 实现一个域名注册时间查询小工具。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
