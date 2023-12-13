@@ -35,6 +35,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
+    /*
     <script>
         document.getElementById('search-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -62,5 +63,40 @@
                 });
         });
     </script>
+    */
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var fullDomain = document.getElementById('default-search').value;
+            
+            // 分割域名以获取名称和后缀
+            var parts = fullDomain.split('.');
+            var name = parts[0];
+            var suffix = parts.slice(1).join('.');
+
+            var apiUrl = '/api/whois?name=' + encodeURIComponent(name) + '&suffix=' + encodeURIComponent(suffix);
+
+            document.getElementById('searchQuery').innerHTML = apiUrl;
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 格式化并展示结果
+                    var resultHtml = '<h3 class="text-lg font-semibold">Search Results:</h3>';
+                    resultHtml += '<pre class="bg-gray-100 p-2 mt-2 rounded">' + JSON.stringify(data, null, 2) + '</pre>';
+                    document.getElementById('search-results').innerHTML = resultHtml;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('search-results').innerHTML = `<p>Error: ${error.message}</p>`;
+                });
+        });
+    </script>
+
 </body>
 </html>
